@@ -31,8 +31,11 @@ class EventDispatcher
         $this->listeners[$eventName][] = $listener;
     }
 
+    /**
+     * @throws EventDispatcherException If no listeners are registered for the given event.
+     */
     private function getListenersForEvent(string $eventName): array
     {
-        return $this->listeners[$eventName] ?? [];
+        return $this->listeners[$eventName] ?? throw EventDispatcherException::noListenersForEvent($eventName);
     }
 }
