@@ -2,6 +2,9 @@
 
 class EventDispatcher
 {
+    /**
+     * @var array<string, (callable|EventListenerInterface)[]>
+     */
     private array $listeners = [];
 
     public function dispatch(object $event, string|null $eventName = null): object
@@ -11,13 +14,18 @@ class EventDispatcher
         $listeners = $this->getListenersForEvent($eventName);
 
         foreach ($listeners as $listener) {
+            if ($listener instanceof EventListenerInterface) {
+                $listener->handle($event);
+                continue;
+            }
+
             $listener($event);
         }
 
         return $event;
     }
 
-    public function addListener(string $eventName, callable $listener): void
+    public function addListener(string $eventName, callable|EventListenerInterface $listener): void
     {
         $this->listeners[$eventName] ??= [];
         $this->listeners[$eventName][] = $listener;
