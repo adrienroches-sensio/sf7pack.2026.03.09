@@ -9,7 +9,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
-use function array_map;
 
 class ConferenceController extends AbstractController
 {
@@ -48,14 +47,9 @@ class ConferenceController extends AbstractController
     {
         $conferences = $conferenceRepository->listAll();
 
-        $result = array_map(static function (Conference $conference): array {
-            return [
-                'id' => $conference->getId(),
-                'name' => $conference->getName(),
-            ];
-        }, $conferences);
-
-        return $this->json($result);
+        return $this->render('conference/list.html.twig', [
+            'conferences' => $conferences
+        ]);
     }
 
     #[Route(
@@ -68,9 +62,8 @@ class ConferenceController extends AbstractController
     )]
     public function show(Conference $conference): Response
     {
-        return $this->json([
-            'id' => $conference->getId(),
-            'name' => $conference->getName(),
+        return $this->render('conference/show.html.twig', [
+            'conference' => $conference,
         ]);
     }
 }
