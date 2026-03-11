@@ -39,6 +39,7 @@ class ConferenceType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Conference::class,
+            'attr' => ['novalidate' => 'novalidate'],
         ]);
     }
 }
