@@ -2,6 +2,9 @@
 
 namespace App\Search\Conference;
 
+use Symfony\Component\DependencyInjection\Attribute\AsDecorator;
+
+#[AsDecorator(ConferenceSearchInterface::class)]
 final class DebounceConferenceSearch implements ConferenceSearchInterface
 {
     private array $debounce = [];
