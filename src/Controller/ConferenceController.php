@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class ConferenceController extends AbstractController
 {
@@ -62,13 +63,12 @@ class ConferenceController extends AbstractController
         ],
         methods: ['GET', 'POST']
     )]
+    #[IsGranted(ConferencePermission::EDIT, 'conference')]
     public function editConference(
         Request $request,
         Conference $conference,
         EntityManagerInterface $em,
     ): Response {
-        $this->denyAccessUnlessGranted(ConferencePermission::EDIT, $conference);
-
         $form = $this->createForm(ConferenceType::class, $conference, [
             'validation_groups' => 'edit',
         ]);
