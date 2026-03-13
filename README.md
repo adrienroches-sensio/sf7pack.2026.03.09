@@ -14,6 +14,10 @@ $ symfony serve
 
 ## Log in
 
-| username | password | roles      |
-|----------|----------|------------|
-| admin    | admin    | ROLE_ADMIN |
+| username  | password  | roles          |
+|-----------|-----------|----------------|
+| nobody    | nobody    |                |
+| user      | user      | ROLE_USER      |
+| website   | website   | ROLE_WEBSITE   |
+| organizer | organizer | ROLE_ORGANIZER |
+| admin     | admin     | ROLE_ADMIN     |
