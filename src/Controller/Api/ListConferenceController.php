@@ -6,7 +6,6 @@ use App\Search\Conference\ConferenceSearchInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route(
@@ -27,9 +26,7 @@ final class ListConferenceController
         $conferences = $this->conferenceSearch->searchByName($request->query->getString('name'));
 
         $data = $this->serializer->serialize($conferences, 'json', [
-            AbstractNormalizer::CIRCULAR_REFERENCE_HANDLER => function ($object): mixed {
-                return $object->getId();
-            }
+            'groups' => ['conference:list'],
         ]);
 
         return new JsonResponse(
