@@ -6,6 +6,7 @@ use App\Entity\Conference;
 use App\Event\Conference\ConferenceSubmittedEvent;
 use App\Form\ConferenceType;
 use App\Search\Conference\ConferenceSearchInterface;
+use App\Security\ConferencePermission;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -66,6 +67,8 @@ class ConferenceController extends AbstractController
         Conference $conference,
         EntityManagerInterface $em,
     ): Response {
+        $this->denyAccessUnlessGranted(ConferencePermission::EDIT, $conference);
+
         $form = $this->createForm(ConferenceType::class, $conference, [
             'validation_groups' => 'edit',
         ]);
