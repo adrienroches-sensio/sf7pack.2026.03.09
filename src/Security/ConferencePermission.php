@@ -6,6 +6,7 @@ namespace App\Security;
 
 enum ConferencePermission
 {
+    public const CREATE = 'conference/create';
     public const EDIT = 'conference/edit';
 
     public static function belong(string $permission): bool
